@@ -655,7 +655,7 @@ EKS에 배포된 내용
  kind: ConfigMap
  metadata:
    name: vaccine-configmap
-   namespace: vaccine
+   namespace: vaccines
  data:
    apiurl: "http://user02-gateway:8080"
 
