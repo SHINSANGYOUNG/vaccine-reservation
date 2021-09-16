@@ -693,7 +693,7 @@ prop:
 
 - seige 로 배포작업 직전에 워크로드를 모니터링 함.
 ```
-siege -c100 -t10S -v --content-type "application/json" 'http://reservation:8080/2'
+siege -c100 -t10S -v --content-type "application/json" 'http://af9a234af8e354f5299f1d049a1b21c0-1150269307.ap-northeast-1.elb.amazonaws.com:8080/reservations
 
 ```
 
@@ -711,7 +711,7 @@ siege -c100 -t10S -v --content-type "application/json" 'http://reservation:8080/
 ```
 
 Customer 서비스 신규 버전으로 배포
-
+![8](https://user-images.githubusercontent.com/88864503/133559016-718ff78d-2808-4f13-bc15-56bb824bcacc.png)
 
 
 배포기간 동안 Availability 가 변화없기 때문에 무정지 재배포가 성공한 것으로 확인됨.
