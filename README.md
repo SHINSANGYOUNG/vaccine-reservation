@@ -628,3 +628,9 @@ public interface MyPageRepository extends CrudRepository<MyPage, Long> {
 # 운영
 
 ## CI/CD 설정
+각 구현체들은 각자의 source repository 에 구성되었고, 사용한 CI/CD 플랫폼은 AWS를 사용하였으며, pipeline build script 는 각 프로젝트 폴더 이하 buildspec.yml 에 포함되었다.
+
+AWS CodeBuild 적용 현황
+![1](https://user-images.githubusercontent.com/88864503/133553458-2ecf1f10-3c01-4b3d-bcaa-84f268f7848a.JPG)
+
+webhook을 통한 CI 확인
