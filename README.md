@@ -634,3 +634,56 @@ AWS CodeBuild 적용 현황
 ![1](https://user-images.githubusercontent.com/88864503/133553458-2ecf1f10-3c01-4b3d-bcaa-84f268f7848a.JPG)
 
 webhook을 통한 CI 확인
+![2](https://user-images.githubusercontent.com/88864503/133553865-81afb01b-dbec-4167-bac9-c8fd62ea5718.JPG)
+
+AWS ECR 적용 현황
+![3](https://user-images.githubusercontent.com/88864503/133553933-30d2ba69-ec96-4b26-838b-33e2d061bb70.JPG)
+
+EKS에 배포된 내용
+![4](https://user-images.githubusercontent.com/88864503/133554057-b6c08a0a-04ce-4dd5-bc47-f01e9776373d.JPG)
+
+## ConfigMap 설정
+
+
+ 동기 호출 URL을 ConfigMap에 등록하여 사용
+
+
+ kubectl apply -f configmap
+
+```
+ apiVersion: v1
+ kind: ConfigMap
+ metadata:
+   name: vaccine-configmap
+   namespace: vaccine
+ data:
+   apiurl: "http://user02-gateway:8080"
+
+```
+buildspec 수정
+
+```
+              spec:
+                containers:
+                  - name: $_PROJECT_NAME
+                    image: $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$_PROJECT_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION
+                    ports:
+                      - containerPort: 8080
+                    env:
+                    - name: apiurl
+                      valueFrom:
+                        configMapKeyRef:
+                          name: vaccine-configmap
+                          key: apiurl 
+                        
+```            
+application.yml 수정
+```
+prop:
+  aprv:
+    url: ${apiurl}
+``` 
+
+동기 호출 URL 실행
+
+
