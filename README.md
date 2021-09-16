@@ -687,4 +687,63 @@ prop:
 동기 호출 URL 실행
 ![5](https://user-images.githubusercontent.com/88864503/133554760-b8d8b524-ebbf-46dc-ba32-1820cffcc023.JPG)
 
+## 무정지 재배포
 
+* 먼저 무정지 재배포가 100% 되는 것인지 확인하기 위해서 Autoscaler 이나 CB 설정을 제거함
+
+- seige 로 배포작업 직전에 워크로드를 모니터링 함.
+```
+siege -c100 -t10S -v --content-type "application/json" 'http://reservation:8080/2'
+
+```
+
+```
+# buildspec.yaml 의 readiness probe 의 설정:
+
+                    readinessProbe:
+                      httpGet:
+                        path: /actuator/health
+                        port: 8080
+                      initialDelaySeconds: 10
+                      timeoutSeconds: 2
+                      periodSeconds: 5
+                      failureThreshold: 10
+```
+
+Customer 서비스 신규 버전으로 배포
+
+
+
+배포기간 동안 Availability 가 변화없기 때문에 무정지 재배포가 성공한 것으로 확인됨.
+
+## Liveness Probe
+
+테스트를 위해 buildspec.yml을 아래와 같이 수정 후 배포
+
+```
+livenessProbe:
+                      # httpGet:
+                      #   path: /actuator/health
+                      #   port: 8080
+                      exec:
+                        command:
+                        - cat
+                        - /tmp/healthy
+```
+
+
+
+ pod 상태 확인
+ 
+ kubectl describe ~ 로 pod에 들어가서 아래 메시지 확인
+ ```
+ Warning  Unhealthy  26s (x2 over 31s)     kubelet            Liveness probe failed: cat: /tmp/healthy: No such file or directory
+ ```
+
+/tmp/healthy 파일 생성
+```
+kubectl exec -it pod/reservation-5576944554-q8jwf -n vaccines -- touch /tmp/healthy
+```
+
+
+성공 확인
