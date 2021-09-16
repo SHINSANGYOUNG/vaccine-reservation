@@ -733,7 +733,8 @@ livenessProbe:
 
 
 ![6](https://user-images.githubusercontent.com/88864503/133556583-3315fae7-de8a-4882-ad1d-8493fbd2daa8.png)
- pod 상태 확인
+
+pod 상태 확인
  
  kubectl describe ~ 로 pod에 들어가서 아래 메시지 확인
  ```
