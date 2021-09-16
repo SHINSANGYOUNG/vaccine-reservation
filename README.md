@@ -685,5 +685,6 @@ prop:
 ``` 
 
 동기 호출 URL 실행
+![5](https://user-images.githubusercontent.com/88864503/133554760-b8d8b524-ebbf-46dc-ba32-1820cffcc023.JPG)
 
 
